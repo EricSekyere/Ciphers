@@ -194,7 +194,7 @@ def read_file():
                 return textfile.read()
         else:
             time.sleep(0.5)
-            print("The specified file does not exist\n")
+            print("\t\t\t  ****The specified file does not exist****")
 
 
 
