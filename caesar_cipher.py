@@ -68,7 +68,7 @@ def action():
         else:
             __invalid__()
 
-def getKey():
+def get_key():
 
     """
     This method gets the user's preferred key {between 1 and 26 inclusive}
@@ -252,7 +252,7 @@ while True:
                     print("\t\t\t|--------------------------------------|")
 
                 message = prompt_user(">> ")
-        key = getKey()
+        key = get_key()
         write_file(getTranslatedMessage(mode, message, key))
 
     elif (play.lower().startswith("n")):
