@@ -81,9 +81,16 @@ def get_key():
         print('\t\t\t|      Enter the key number (1-%s)     |'
                             % (MAX_KEY_SIZE))
         print("\t\t\t|--------------------------------------|")
-        key = int(prompt_user(">> "))
-        if (key >= 1 and key <= MAX_KEY_SIZE):
-            return key
+        key = prompt_user(">> ")
+        if(len(key)==0):
+            __invalid__()
+        else:
+            try:
+                key = int(key)
+                if (key >= 1 and key <= MAX_KEY_SIZE):
+                    return key
+            except ValueError:
+                __invalid__()
 
 
 def getTranslatedMessage(mode, message, key):
@@ -200,34 +207,22 @@ def read_file():
 
 
 #=========================THE APPLICATION CODE BELOW==============================#
-mode = None
-message =""
-key = None
+def app():
 
+    mode, message, key = None, "",None
 
-__introduce___()
-while True:
-    print("\t\t\t|--------------------------------------|")
-    print("\t\t\t|       Would You Like to Proceed?     |")
-    print("\t\t\t|   Yes(y)       or           No(n)    |")
-    print("\t\t\t|--------------------------------------|")
-    play = prompt_user(">> ")
-    # user acceptance
-    if(play.lower().startswith("y")):
-        mode = action()
-        #read from file or console
+    __introduce___()
+
+    while True:
         print("\t\t\t|--------------------------------------|")
-        print("\t\t\t|              ENTER(PUSH)             |")
-        time.sleep(0.5)
-        print("\t\t\t| f - to read from existing text file  |")
-        print("\t\t\t|               OR                     |")
-        time.sleep(0.5)
-        print("\t\t\t| c -  read from console input         |")
+        print("\t\t\t|       Would You Like to Proceed?     |")
+        print("\t\t\t|   Yes(y)       or           No(n)    |")
         print("\t\t\t|--------------------------------------|")
-        read_from_file = prompt_user(" ")
-        #ensure user  puts in right command
-        while(read_from_file.lower() not in "f c".split()):
-            __invalid__()
+        play = prompt_user(">> ")
+        # user acceptance
+        if(play.lower().startswith("y")):
+            mode = action()
+            #read from file or console
             print("\t\t\t|--------------------------------------|")
             print("\t\t\t|              ENTER(PUSH)             |")
             time.sleep(0.5)
@@ -236,34 +231,50 @@ while True:
             time.sleep(0.5)
             print("\t\t\t| c -  read from console input         |")
             print("\t\t\t|--------------------------------------|")
-            read_from_file = prompt_user(">> ")
-        else:
-            # user decides to read from file
-            if(read_from_file.lower()[0] is "f"):
-                message = read_file()
+            read_from_file = prompt_user(" ")
+            #ensure user  puts in right command
+            while(read_from_file.lower() not in "f c".split()):
+                __invalid__()
+                print("\t\t\t|--------------------------------------|")
+                print("\t\t\t|              ENTER(PUSH)             |")
+                time.sleep(0.5)
+                print("\t\t\t| f - to read from existing text file  |")
+                print("\t\t\t|               OR                     |")
+                time.sleep(0.5)
+                print("\t\t\t| c -  read from console input         |")
+                print("\t\t\t|--------------------------------------|")
+                read_from_file = prompt_user(">> ")
             else:
-                if(mode == "d" or mode == "decrypt"):
-                    print("\t\t\t|--------------------------------------|")
-                    print("\t\t\t|    Enter the message to decrypt      |")
-                    print("\t\t\t|--------------------------------------|")
+                # user decides to read from file
+                if(read_from_file.lower()[0] is "f"):
+                    message = read_file()
                 else:
-                    print("\t\t\t|--------------------------------------|")
-                    print("\t\t\t|    Enter the message to encrypt      |")
-                    print("\t\t\t|--------------------------------------|")
+                    if(mode == "d" or mode == "decrypt"):
+                        print("\t\t\t|--------------------------------------|")
+                        print("\t\t\t|    Enter the message to decrypt      |")
+                        print("\t\t\t|--------------------------------------|")
+                    else:
+                        print("\t\t\t|--------------------------------------|")
+                        print("\t\t\t|    Enter the message to encrypt      |")
+                        print("\t\t\t|--------------------------------------|")
 
-                message = prompt_user(">> ")
-        key = get_key()
-        write_file(getTranslatedMessage(mode, message, key))
+                    message = prompt_user(">> ")
+            key = get_key()
+            write_file(getTranslatedMessage(mode, message, key))
 
-    elif (play.lower().startswith("n")):
-        time.sleep(0.5)
-        print("\t\t\t|--------------------------------------|")
-        print("\t\t\t|          Session Terminated          |")
-        print("\t\t\t|--------------------------------------|")
-        break
-    else:
-        time.sleep(0.5)
-        __invalid__()
+        elif (play.lower().startswith("n")):
+            time.sleep(0.5)
+            print("\t\t\t|--------------------------------------|")
+            print("\t\t\t|          Session Terminated          |")
+            print("\t\t\t|--------------------------------------|")
+            break
+        else:
+            time.sleep(0.5)
+            __invalid__()
+
+
+if __name__ == "__main__":
+    app()
 
 
 
