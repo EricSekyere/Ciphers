@@ -82,15 +82,14 @@ def get_key():
                             % (MAX_KEY_SIZE))
         print("\t\t\t|--------------------------------------|")
         key = prompt_user(">> ")
-        if(len(key)==0):
+        #if(len(key)==0):
+            #__invalid__()
+        try:
+            key = int(key)
+            if (key >= 1 and key <= MAX_KEY_SIZE):
+                return key
+        except ValueError:
             __invalid__()
-        else:
-            try:
-                key = int(key)
-                if (key >= 1 and key <= MAX_KEY_SIZE):
-                    return key
-            except ValueError:
-                __invalid__()
 
 
 def getTranslatedMessage(mode, message, key):
