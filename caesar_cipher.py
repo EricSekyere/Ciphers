@@ -1,5 +1,7 @@
 __author__ = 'Eric Owusu Sekyere'
 
+import  csv
+
 """
 This is a console application  to demonstrate the caesar cipher.
 This module allows for file input an output.
@@ -83,7 +85,7 @@ def get_key():
         print("\t\t\t|--------------------------------------|")
         key = prompt_user(">> ")
         #if(len(key)==0):
-            #__invalid__()
+           # __invalid__()
         try:
             key = int(key)
             if (key >= 1 and key <= MAX_KEY_SIZE):
@@ -92,7 +94,8 @@ def get_key():
             __invalid__()
 
 
-def getTranslatedMessage(mode, message, key):
+
+def get_translated_message(mode, message, key):
 
     """
         This method will return the encrypted or decrypted message
@@ -202,6 +205,37 @@ def read_file():
             time.sleep(0.5)
             print("\t\t\t  ****The specified file does not exist****")
 
+def crack_cipher(message):
+    # loop through every possible key
+    LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    final = ""
+    for key in range(len(LETTERS)):
+
+        # It is important to set translated to the blank string so that the
+        # previous iteration's value for translated is cleared.
+        translated = ''
+        # The rest of the program is the same as the original Caesar program:
+
+        # run the encryption/decryption code on each symbol in the message
+        for symbol in message:
+
+            if symbol in LETTERS:
+                num = LETTERS.find(symbol) # get the number of the symbol
+                num = num - key
+
+                # handle the wrap-around if num is 26 or larger or less than 0
+                if num < 0:
+                    num += len(LETTERS)
+
+                    # add number's symbol at the end of translated
+                translated += LETTERS[num]
+
+            else:
+                    # just add the symbol without encrypting/decrypting
+                translated += symbol
+        final  += "key " + str(key)+ " >> " + translated + "\n"
+    print("\t\t\t The possible translation will be written to a file")
+    write_file(final)
 
 
 
@@ -256,10 +290,10 @@ def app():
                         print("\t\t\t|--------------------------------------|")
                         print("\t\t\t|    Enter the message to encrypt      |")
                         print("\t\t\t|--------------------------------------|")
-
                     message = prompt_user(">> ")
             key = get_key()
-            write_file(getTranslatedMessage(mode, message, key))
+
+            write_file(get_translated_message(mode, message, key))
 
         elif (play.lower().startswith("n")):
             time.sleep(0.5)
@@ -274,6 +308,4 @@ def app():
 
 if __name__ == "__main__":
     app()
-
-
 
