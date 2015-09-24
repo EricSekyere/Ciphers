@@ -7,7 +7,7 @@ import math
 def invalid():
     print("\t\t\t\t *****Invalid Command*****")
 
-def __proceed__():
+def proceed():
     print("\t\t\t|--------------------------------------|")
     print("\t\t\t|       Would You Like to Proceed?     |")
     print("\t\t\t|   Yes(y)       or           No(n)    |")
@@ -122,7 +122,7 @@ def get_key():
         except ValueError:
             invalid()
 
-def encryptMessage(key, message):
+def encrypt_message(key, message):
     # Each string in ciphertext represents a column in the grid.
     ciphertext = [''] * key
 
@@ -142,7 +142,7 @@ def encryptMessage(key, message):
     # Convert the ciphertext list into a single string value and return it.
     return ''.join(ciphertext)
 
-def decryptMessage(key, message):
+def decrypt_message(key, message):
     # The transposition decrypt function will simulate the "columns" and
     # "rows" of the grid that the plaintext is written on by using a list
     # of strings. First, we need to calculate a few values.
@@ -178,12 +178,12 @@ def app():
     message, key, mode,translated, choice = "", None, "", "", ""
     print ("\t\t\t|--------------------------------------|")
     print ("\t\t\t|        welcome to this simple        |".upper())
-    print ("\t\t\t|         transposition Ciphers         |".upper())
+    print ("\t\t\t|         transposition Cipher         |".upper())
     print ("\t\t\t|--------------------------------------|")
     
     while(True):
         # user decision
-        __proceed__()
+        proceed()
         proceed = input(">> ").lower()
         
         if(proceed in "y yes".split()):
@@ -205,9 +205,9 @@ def app():
                 #now get the key
                 key = get_key()
                 if((mode == "e" or mode == "encrypt")):
-                    translated = encryptMessage(key, message) + "|"
+                    translated = encrypt_message(key, message) + "|"
                 elif ((mode == "d" or mode == "decrypt")):
-                    translated = encryptMessage(key, message) + "|"
+                    translated = decrypt_message(key, message) + "|"
                 write_file(translated)
 
         elif(proceed in "n no".split()):
@@ -218,23 +218,9 @@ def app():
             break
         else:
             invalid()
-            __proceed__()
+            proceed()
 
-
-    myMessage = 'Common sense is not so common.'
-    myKey = 8
-
-    ciphertext = encryptMessage(myKey, myMessage)
-
-    # Print the encrypted string in ciphertext to the screen, with
-    # a | (called "pipe" character) after it in case there are spaces at
-    # the end of the encrypted message.
-    print(ciphertext + '|')
-
-    # Copy the encrypted string in ciphertext to the clipboard.
-
-
-# If transpositionEncrypt.py is run (instead of imported as a module) call
+# If SimpleTranspositionCipher.py is run (instead of imported as a module) call
 # the main() function.
 if __name__ == '__main__':
     app()
